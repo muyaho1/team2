@@ -1,0 +1,25 @@
+import time
+import selenium
+from selenium import webdriver
+
+print("랭크가 있는 소환사의 이름을 입력하세요(콤마로 구분할 것)")
+print("ex : 치킨에 미친 사람, 이과 1등 요네, froze still")
+user_name_string=input(">> : ")
+user_name=user_name_string.split(",")
+
+URL='https://www.op.gg/summoner/userName='
+
+driver = webdriver.Chrome(executable_path='./chromedriver.exe')
+driver.implicitly_wait(3)
+driver.get(url=URL)
+
+for summoner in user_name:
+    driver.find_element_by_name('userName').send_keys(summoner)
+
+    search_btn1 = driver.find_element_by_xpath('/html/body/div[2]/div[1]/ul/div/form/button')
+    search_btn1.click()
+
+    Name= driver.find_element_by_class_name('Name').text
+    rank=driver.find_element_by_class_name('TierRank').text
+    rating = driver.find_element_by_class_name('winratio').text
+    print(Name+"-"+rank + '('+rating+')')
